@@ -1,0 +1,59 @@
+experiment:
+  name: opsd_qwen3_b32_100
+  method: opsd
+  seed: 42
+model:
+  name: model/Qwen3-1.7B
+  expected_model_type: qwen3
+  revision: null
+  dtype: bfloat16
+  device: cuda
+  attention_backend: sdpa
+  lora:
+    rank: 64
+    alpha: 128
+    targets: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+data:
+  root: data/processed/openthoughts
+  privilege: solution_and_answer
+prompts:
+  style: opsd
+  student_thinking: false
+  teacher_thinking: true
+rollout:
+  temperature: 1.1
+  top_p: 0.95
+  top_k: 20
+  min_p: 0.0
+  max_new_tokens: 1024
+  max_total_tokens: 4096
+  max_student_tokens: 2048
+train:
+  max_steps: 100
+  micro_batch_size: 2
+  gradient_accumulation_steps: 16
+  student_optimizer: adamw
+  student_lr: 0.000005
+  student_weight_decay: 0.0
+  adam_betas: [0.9, 0.999]
+  adam_epsilon: 0.00000001
+  lr_scheduler: linear
+  max_grad_norm: 0.1
+  gradient_checkpointing: true
+loss:
+  kind: clipped_forward_kl
+  temperature: 1.1
+  token_clip: 0.05
+  temperature_squared: false
+evaluation:
+  max_new_tokens: 38912
+  thinking: true
+  temperature: 1.0
+  top_p: 0.95
+  top_k: 0
+  samples_per_prompt: 12
+logging:
+  output_root: outputs
+  save_every: 25
+  save_first_step: true
+  micro_progress: true

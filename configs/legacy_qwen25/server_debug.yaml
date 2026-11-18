@@ -1,0 +1,40 @@
+experiment:
+  name: meta_math_server_debug
+  method: meta_opsd
+  seed: 42
+model:
+  name: model/Qwen2.5-Math-1.5B-Instruct
+  revision: aafeb0fc6f22cbf0eaeed126eff8be45b0360a35
+  dtype: bfloat16
+  device: cuda
+  attention_backend: eager
+  lora:
+    rank: 8
+    alpha: 16
+    targets: [q_proj, v_proj]
+data:
+  root: data/processed/math
+  privilege: solution_and_answer
+rollout:
+  temperature: 0.7
+  top_p: 0.95
+  max_new_tokens: 128
+  max_total_tokens: 512
+train:
+  max_steps: 100
+  inner_batch_size: 1
+  quiz_batch_size: 1
+  inner_steps: 1
+  inner_lr: 0.0001
+  student_lr: 0.0001
+  teacher_lr: 0.00001
+  teacher_weight_decay: 0.0
+  gradient_checkpointing: false
+loss:
+  kind: forward_kl
+  temperature: 1.0
+evaluation:
+  max_new_tokens: 1024
+logging:
+  output_root: outputs
+  save_every: 50

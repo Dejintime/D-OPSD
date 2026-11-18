@@ -1,0 +1,20 @@
+__pycache__/
+.pytest_cache/
+*.egg-info/
+.venv/
+.venv_eval/
+data/
+model/
+outputs/
+.DS_Store
+
+# Local credentials and generated artifacts
+.env
+.env.*
+!.env.example
+.ssh/
+.cache/
+*.pem
+*.key
+*.log
+/checkpoints/

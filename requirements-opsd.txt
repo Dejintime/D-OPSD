@@ -1,0 +1,14 @@
+# Unified training/evaluation environment for the new server (Python 3.12).
+# vLLM 0.11.0 requires torch 2.8.0; do not combine this with the legacy lock file.
+vllm==0.11.0
+torch==2.8.0
+transformers==4.57.1
+peft==0.19.1
+datasets==4.3.0
+math-verify==0.8.0
+latex2sympy2_extended==1.10.2
+antlr4-python3-runtime==4.13.2
+numpy==2.2.6
+pyarrow==21.0.0
+PyYAML==6.0.3
+pytest==8.4.2
